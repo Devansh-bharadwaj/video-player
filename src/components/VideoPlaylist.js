@@ -1,55 +1,60 @@
-import React from "react";
-import video1 from "../assets/video1.mp4";
-import thumb1 from "../assets/akh-lad-jaave.jpg";
-import video2 from "../assets/ban-kar-hawa.mp4";
-import thumb2 from "../assets/ban-kar-hawa.jpg";
-import video3 from "../assets/lal-vindi.mkv";
-import thumb3 from "../assets/laal-bindi.jpg";
-import video4 from "../assets/pachhtaoge.mp4";
-import thumb4 from "../assets/pachtaoge.jpg";
+import React, { useContext, useState } from "react";
+import { VideosContext } from "../context/VideosContext";
+import { NavLink } from "react-router-dom";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 const VideoPlaylist = () => {
-  const videos = [
-    {
-      id: 1,
-      url: video1,
-      thumbnail: thumb1,
-      about: "Akh lad jaave",
-    },
-    {
-      id: 2,
-      url: video2,
-      thumbnail: thumb2,
-      about: "ban kar hawa",
-    },
-    {
-      id: 3,
-      url: video3,
-      thumbnail: thumb3,
-      about: "Laal bindi",
-    },
-    {
-      id: 4,
-      url: video4,
-      thumbnail: thumb4,
-      about: "Pachhtaoge",
-    },
-  ];
+  const { videos } = useContext(VideosContext);
+  // const [allVideos, setAllVideos] = useState([videos])
   return (
-    <div className="w-1/3 m-10">
-      {videos.map((video) => (
-        <div className="video-item w-3/4 cursor-pointer mb-20" key={video.id}>
-          <div className="thumnail w-full">
-            <img
-              src={video.thumbnail}
-              alt="video"
-              className="w-full object-cover"
-            />
-            <h5 className="mt-2">{video.about}</h5>
+    <DragDropContext
+      onDragEnd={(param) => {
+        const srcI = param.source.index;
+        const desI = param.destination.index;
+        videos.splice(desI, 0, videos.splice(srcI, 1)[0]);
+      }}
+    >
+      <Droppable droppableId="droppable - 1">
+        {(provided, snapshot) => (
+          <div
+            className="w-1/3 m-10"
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
+            {videos?.map((video, i) => (
+              <Draggable
+                key={video.id}
+                draggableId={"draggable-" + video.id}
+                index={i}
+              >
+                {(provided, snapshot) => (
+                  <NavLink
+                    to={`/video/${video.id}`}
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                  >
+                    <div
+                      className="video-item w-full cursor-pointer mb-20"
+                      {...provided.dragHandleProps}
+                    >
+                      <div className="thumnail w-full">
+                        <img
+                          src={video.thumbnail}
+                          alt="video"
+                          className="w-full object-cover"
+                        />
+                        <h5 className="mt-2 font-semibold">{video.about}</h5>
+                      </div>
+                    </div>
+                  </NavLink>
+                )}
+              </Draggable>
+            ))}
+            {provided.placeholder}
           </div>
-        </div>
-      ))}
-    </div>
+        )}
+      </Droppable>
+    </DragDropContext>
   );
 };
 

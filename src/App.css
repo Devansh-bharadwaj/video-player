@@ -1,6 +1,14 @@
+.App {
+  display: flex;
+}
 .thumnail img {
-  height: 176px;
+  height: 100%;
 }
 .thumnail {
-  height: 176px;
+  height: 224px;
+}
+.video-box div {
+  width: 59% !important;
+  height: 509px !important;
+  position: fixed;
 }
