@@ -5,13 +5,14 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 const VideoPlaylist = () => {
   const { videos } = useContext(VideosContext);
-  // const [allVideos, setAllVideos] = useState([videos])
+  const [allVideos, setAllVideos] = useState(videos.categories[0].videos);
+  console.log(videos.categories[0].videos);
   return (
     <DragDropContext
       onDragEnd={(param) => {
         const srcI = param.source.index;
         const desI = param.destination.index;
-        videos.splice(desI, 0, videos.splice(srcI, 1)[0]);
+        allVideos.splice(desI, 0, allVideos.splice(srcI, 1)[0]);
       }}
     >
       <Droppable droppableId="droppable - 1">
@@ -21,7 +22,7 @@ const VideoPlaylist = () => {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {videos?.map((video, i) => (
+            {allVideos?.map((video, i) => (
               <Draggable
                 key={video.id}
                 draggableId={"draggable-" + video.id}
@@ -39,11 +40,13 @@ const VideoPlaylist = () => {
                     >
                       <div className="thumnail w-full">
                         <img
-                          src={video.thumbnail}
+                          src={video.thumb}
                           alt="video"
                           className="w-full object-cover"
                         />
-                        <h5 className="mt-2 font-semibold">{video.about}</h5>
+                        <h5 className="mt-2 font-semibold">
+                          {video.title + " | " + video.subtitle}
+                        </h5>
                       </div>
                     </div>
                   </NavLink>
