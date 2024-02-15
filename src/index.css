@@ -9,6 +9,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
 
 code {
@@ -18,9 +19,12 @@ code {
 
 @layer components {
   .card {
-    background-color: theme('colors.white');
-    border-radius: theme('borderRadius.lg');
+    background-color: theme("colors.white");
+    border-radius: theme("borderRadius.lg");
     /* padding: theme('spacing.6'); */
-    box-shadow: theme('boxShadow.xl');
+    box-shadow: theme("boxShadow.xl");
+  }
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
   }
 }
