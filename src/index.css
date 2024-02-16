@@ -27,4 +27,10 @@ code {
   .scrollbar-hidden::-webkit-scrollbar {
     display: none;
   }
+
+  @media (min-width: 1024px) {
+    .w-18-pr {
+      width: 18%;
+    }
+  }
 }

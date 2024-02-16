@@ -14,7 +14,7 @@ function App() {
             <Route
               path="/video/:id"
               element={[
-                <VideoPlaylist key={1} />,
+                // <VideoPlaylist key={1} />,
                 <ReactVideoPlayer key={2} />,
               ]}
             />
